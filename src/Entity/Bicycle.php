@@ -34,6 +34,11 @@ class Bicycle
      */
     private $available;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=TypeBicycle::class, inversedBy="bicycles")
+     */
+    private $type;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -71,6 +76,18 @@ class Bicycle
     public function setAvailable(bool $available): self
     {
         $this->available = $available;
+
+        return $this;
+    }
+
+    public function getType(): ?TypeBicycle
+    {
+        return $this->type;
+    }
+
+    public function setType(?TypeBicycle $type): self
+    {
+        $this->type = $type;
 
         return $this;
     }
