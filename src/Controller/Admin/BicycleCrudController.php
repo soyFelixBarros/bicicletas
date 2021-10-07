@@ -32,13 +32,13 @@ class BicycleCrudController extends AbstractCrudController
         $type = AssociationField::new('type');
 
         if (Crud::PAGE_INDEX === $pageName) {
-            return [$id, $name, $type, $available];
+            return [$id, $name, $type];
         } elseif (Crud::PAGE_DETAIL === $pageName) {
             return [$id, $name, $type, $available];
         } elseif (Crud::PAGE_NEW === $pageName) {
-            return [$name, $type, $available];
+            return [$name, $type];
         } elseif (Crud::PAGE_EDIT === $pageName) {
-            return [$name, $type, $available];
+            return [$name, $type];
         }
     }
 }

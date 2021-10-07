@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\BicycleRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
 
@@ -25,7 +27,7 @@ class Bicycle
     private $name;
 
     /**
-     * @ORM\Column(type="boolean", options={"default" : 0})
+     * @ORM\Column(type="boolean", options={"default": 0})
      */
     private $available;
 
@@ -33,6 +35,16 @@ class Bicycle
      * @ORM\ManyToOne(targetEntity=TypeBicycle::class, inversedBy="bicycles")
      */
     private $type;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Rental::class, mappedBy="bicycle")
+     */
+    private $rentals;
+
+    public function __construct()
+    {
+        $this->rentals = new ArrayCollection();
+    }
 
     public function __toString()
     {
@@ -76,6 +88,36 @@ class Bicycle
     public function setType(?TypeBicycle $type): self
     {
         $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Rental[]
+     */
+    public function getRentals(): Collection
+    {
+        return $this->rentals;
+    }
+
+    public function addRental(Rental $rental): self
+    {
+        if (!$this->rentals->contains($rental)) {
+            $this->rentals[] = $rental;
+            $rental->setBicycle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRental(Rental $rental): self
+    {
+        if ($this->rentals->removeElement($rental)) {
+            // set the owning side to null (unless already changed)
+            if ($rental->getBicycle() === $this) {
+                $rental->setBicycle(null);
+            }
+        }
 
         return $this;
     }

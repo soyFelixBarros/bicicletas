@@ -58,7 +58,7 @@ class TypeBicycle
 
     public function __toString()
     {
-        return $this->getName();
+        return $this->getName().' - '.$this->getPrice().' EUR';
     }
 
     public function getId(): ?int

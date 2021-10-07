@@ -2,6 +2,7 @@
 namespace App\EventSubscriber;
 
 use App\Entity\TypeBicycle;
+use App\Entity\Rental;
 use EasyCorp\Bundle\EasyAdminBundle\Event\BeforeEntityPersistedEvent;
 use EasyCorp\Bundle\EasyAdminBundle\Event\BeforeEntityUpdatedEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -11,37 +12,73 @@ class EasyAdminSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            BeforeEntityPersistedEvent::class => ['persistCalculateRentalPrice'],
-            BeforeEntityUpdatedEvent::class => ['updateCalculateRentalPrice'],
+            BeforeEntityPersistedEvent::class => ['beforeEntityPersistedEvent'],
+            BeforeEntityUpdatedEvent::class => ['beforeEntityUpdatedEvent'],
         ];
     }
 
-    public function persistCalculateRentalPrice(BeforeEntityPersistedEvent $event)
+    public function beforeEntityPersistedEvent(BeforeEntityPersistedEvent $event)
     {
         $entity = $event->getEntityInstance();
 
-        if (!($entity instanceof TypeBicycle)) {
-            return;
+        if ($entity instanceof TypeBicycle) {
+            $this->calculateTypePrice($entity);
         }
-        
-        $this->calculateRentalPrice($event, $entity);
+
+        if ($entity instanceof Rental) {
+            $this->calculateRentalPrice($entity);
+            $this->updateBikeAvailability($entity);
+        }
+
+        return;
     }
 
-    public function updateCalculateRentalPrice(BeforeEntityUpdatedEvent $event)
+    public function beforeEntityUpdatedEvent(BeforeEntityUpdatedEvent $event)
     {
         $entity = $event->getEntityInstance();
 
-        if (!($entity instanceof TypeBicycle)) {
-            return;
+        if ($entity instanceof TypeBicycle) {
+            $this->calculateTypePrice($entity);  
         }
+
+        if ($entity instanceof Rental) {
+            $this->calculateRentalPrice($entity);
+            $this->updateBikeAvailability($entity);
+        }
+
+        return;
+    }
+
+    /**
+     * Método para actualizar la disponibilidad de bicicletas.
+     */
+    private function updateBikeAvailability($entity)
+    {
+        $returned = $entity->getReturned();
+        $entity->getBicycle()->setAvailable($returned); 
+    }
+
+    /**
+     * Método para calcular el precio de los alquiler segun el precio base y los días seleccionados.
+     */
+    private function calculateRentalPrice($entity)
+    {
+        $date = $entity->getDate();
+        $dateReturn = $entity->getDateReturn();
+        $days = (int) $date->diff($dateReturn)->format('%a');
+        $price = $entity->getBicycle()->getType()->getPrice();
         
-        $this->calculateRentalPrice($event, $entity);  
+        if ($days > 1) {
+            $price = $price * $days; 
+        }
+
+        $entity->setPrice($price);
     }
 
     /**
      * Método para calcular el precio de los alquileres.
      */
-    private function calculateRentalPrice($event, $entity)
+    private function calculateTypePrice($entity)
     {
         $basePrice = $entity->getBasePrice();
         $days = $entity->getDays();
