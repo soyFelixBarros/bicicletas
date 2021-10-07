@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Bicycle;
 use App\Entity\TypeBicycle;
+use App\Entity\PlanTypeBicycle;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
@@ -34,5 +35,6 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::section('Bicycles', 'fas fa-folder-open');
         yield MenuItem::linkToCrud('List', 'fas fa-bicycle', Bicycle::class)->setDefaultSort(['id' => 'DESC']);
         yield MenuItem::linkToCrud('Types', 'far fa-list-alt', TypeBicycle::class)->setDefaultSort(['id' => 'DESC']);
+        yield MenuItem::linkToCrud('Plans', 'fas fa-money-check-alt', PlanTypeBicycle::class)->setDefaultSort(['id' => 'DESC']);
     }
 }

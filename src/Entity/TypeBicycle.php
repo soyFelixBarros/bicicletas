@@ -31,6 +31,11 @@ class TypeBicycle
      */
     private $bicycles;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=PlanTypeBicycle::class, inversedBy="types")
+     */
+    private $plan;
+
     public function __construct()
     {
         $this->bicycles = new ArrayCollection();
@@ -79,6 +84,18 @@ class TypeBicycle
                 $bicycle->setType(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPlan(): ?PlanTypeBicycle
+    {
+        return $this->plan;
+    }
+
+    public function setPlan(?PlanTypeBicycle $plan): self
+    {
+        $this->plan = $plan;
 
         return $this;
     }
