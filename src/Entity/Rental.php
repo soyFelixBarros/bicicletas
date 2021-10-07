@@ -49,6 +49,11 @@ class Rental
      */
     private $returned;
 
+    public function __toString()
+    {
+        return $this->getPrice();
+    }
+
     public function getId(): ?int
     {
         return $this->id;

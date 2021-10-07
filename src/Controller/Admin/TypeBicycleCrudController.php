@@ -32,15 +32,16 @@ class TypeBicycleCrudController extends AbstractCrudController
         $basePrice = IntegerField::new('basePrice');
         $days = IntegerField::new('days');
         $price = IntegerField::new('price');
+        $bonusPoints = IntegerField::new('bonusPoints');
 
         if (Crud::PAGE_INDEX === $pageName) {
             return [$id, $name, $plan, $price];
         } elseif (Crud::PAGE_DETAIL === $pageName) {
-            return [$id, $name, $plan, $price];
+            return [$id, $name, $plan, $price, $bonusPoints];
         } elseif (Crud::PAGE_NEW === $pageName) {
-            return [$name, $plan, $basePrice, $days];
+            return [$name, $plan, $basePrice, $days, $bonusPoints];
         } elseif (Crud::PAGE_EDIT === $pageName) {
-            return [$name, $plan, $basePrice, $days];
+            return [$name, $plan, $basePrice, $days, $bonusPoints];
         }
     }
 }

@@ -51,6 +51,11 @@ class TypeBicycle
      */
     private $days;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $bonusPoints;
+
     public function __construct()
     {
         $this->bicycles = new ArrayCollection();
@@ -152,6 +157,18 @@ class TypeBicycle
     public function setDays(?int $days): self
     {
         $this->days = $days;
+
+        return $this;
+    }
+
+    public function getBonusPoints(): ?int
+    {
+        return $this->bonusPoints;
+    }
+
+    public function setBonusPoints(?int $bonusPoints): self
+    {
+        $this->bonusPoints = $bonusPoints;
 
         return $this;
     }
