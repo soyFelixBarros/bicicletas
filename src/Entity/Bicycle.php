@@ -20,16 +20,6 @@ class Bicycle
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $make;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $model;
-
-    /**
      * @ORM\Column(type="boolean", options={"default" : 0})
      */
     private $available;
@@ -39,38 +29,19 @@ class Bicycle
      */
     private $type;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $name;
+
     public function __toString()
     {
-        return $this->getMake().' '.$this->getModel();
+        return $this->getName();
     }
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getMake(): ?string
-    {
-        return $this->make;
-    }
-
-    public function setMake(string $make): self
-    {
-        $this->make = $make;
-
-        return $this;
-    }
-
-    public function getModel(): ?string
-    {
-        return $this->model;
-    }
-
-    public function setModel(string $model): self
-    {
-        $this->model = $model;
-
-        return $this;
     }
 
     public function getAvailable(): ?bool
@@ -93,6 +64,18 @@ class Bicycle
     public function setType(?TypeBicycle $type): self
     {
         $this->type = $type;
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
 
         return $this;
     }
