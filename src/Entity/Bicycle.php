@@ -20,6 +20,11 @@ class Bicycle
     private $id;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $name;
+
+    /**
      * @ORM\Column(type="boolean", options={"default" : 0})
      */
     private $available;
@@ -29,11 +34,6 @@ class Bicycle
      */
     private $type;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $name;
-
     public function __toString()
     {
         return $this->getName();
@@ -42,6 +42,18 @@ class Bicycle
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
     }
 
     public function getAvailable(): ?bool
@@ -64,18 +76,6 @@ class Bicycle
     public function setType(?TypeBicycle $type): self
     {
         $this->type = $type;
-
-        return $this;
-    }
-
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    public function setName(string $name): self
-    {
-        $this->name = $name;
 
         return $this;
     }

@@ -36,9 +36,29 @@ class TypeBicycle
      */
     private $plan;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $price;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $basePrice;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true, options={"default" : 0})
+     */
+    private $days;
+
     public function __construct()
     {
         $this->bicycles = new ArrayCollection();
+    }
+
+    public function __toString()
+    {
+        return $this->getName();
     }
 
     public function getId(): ?int
@@ -96,6 +116,42 @@ class TypeBicycle
     public function setPlan(?PlanTypeBicycle $plan): self
     {
         $this->plan = $plan;
+
+        return $this;
+    }
+
+    public function getPrice(): ?int
+    {
+        return $this->price;
+    }
+
+    public function setPrice(?int $price): self
+    {
+        $this->price = $price;
+
+        return $this;
+    }
+
+    public function getBasePrice(): ?int
+    {
+        return $this->basePrice;
+    }
+
+    public function setBasePrice(?int $basePrice): self
+    {
+        $this->basePrice = $basePrice;
+
+        return $this;
+    }
+
+    public function getDays(): ?int
+    {
+        return $this->days;
+    }
+
+    public function setDays(?int $days): self
+    {
+        $this->days = $days;
 
         return $this;
     }

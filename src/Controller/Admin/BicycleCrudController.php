@@ -3,6 +3,12 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Bicycle;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
 class BicycleCrudController extends AbstractCrudController
@@ -12,14 +18,27 @@ class BicycleCrudController extends AbstractCrudController
         return Bicycle::class;
     }
 
-    /*
+    public function configureCrud(Crud $crud): Crud
+    {
+        return $crud
+            ->setSearchFields(['id', 'name']);
+    }
+
     public function configureFields(string $pageName): iterable
     {
-        return [
-            IdField::new('id'),
-            TextField::new('title'),
-            TextEditorField::new('description'),
-        ];
+        $id = IdField::new('id');
+        $name = TextField::new('name');
+        $available = BooleanField::new('available');
+        $type = AssociationField::new('type');
+
+        if (Crud::PAGE_INDEX === $pageName) {
+            return [$id, $name, $type, $available];
+        } elseif (Crud::PAGE_DETAIL === $pageName) {
+            return [$id, $name, $type, $available];
+        } elseif (Crud::PAGE_NEW === $pageName) {
+            return [$name, $type, $available];
+        } elseif (Crud::PAGE_EDIT === $pageName) {
+            return [$name, $type, $available];
+        }
     }
-    */
 }
