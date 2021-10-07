@@ -1,0 +1,18 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block page_content %}
+<div class="col-3">
+    {% if bicycles %}
+    <div class="card">
+        <div class="card-header">
+            {{ bicycles|length }} Bicicletas disponibles
+        </div>
+        <ul class="list-group list-group-flush">
+            {% for bicycle in bicycles %}
+            <li class="list-group-item">{{ loop.index }} - {{ bicycle }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

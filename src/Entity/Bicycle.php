@@ -39,6 +39,11 @@ class Bicycle
      */
     private $type;
 
+    public function __toString()
+    {
+        return $this->getMake().' '.$this->getModel();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
