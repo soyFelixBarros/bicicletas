@@ -27,7 +27,6 @@ class EasyAdminSubscriber implements EventSubscriberInterface
 
         if ($entity instanceof Rental) {
             $this->calculateRentalPrice($entity);
-            $this->updateBikeAvailability($entity);
         }
 
         return;
@@ -43,19 +42,26 @@ class EasyAdminSubscriber implements EventSubscriberInterface
 
         if ($entity instanceof Rental) {
             $this->calculateRentalPrice($entity);
-            $this->updateBikeAvailability($entity);
+            $this->updateClientBonusPoints($entity);
         }
 
         return;
     }
 
     /**
-     * Método para actualizar la disponibilidad de bicicletas.
+     * Método para actualizar los puntos del cliente
      */
-    private function updateBikeAvailability($entity)
+    private function updateClientBonusPoints($entity)
     {
         $returned = $entity->getReturned();
-        $entity->getBicycle()->setAvailable($returned); 
+        $bonusPoints = $entity->getClient()->getBonusPoints();
+        $bicycleTypebonusPoints = $entity->getBicycle()->getType()->getBonusPoints();
+        if ($returned) {
+            $points = $bicycleTypebonusPoints + $bonusPoints;
+        } else {
+            $points = $bicycleTypebonusPoints - $bonusPoints;
+        }
+        $entity->getClient()->setBonusPoints($points); 
     }
 
     /**

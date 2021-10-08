@@ -27,11 +27,6 @@ class Bicycle
     private $name;
 
     /**
-     * @ORM\Column(type="boolean", options={"default": 0})
-     */
-    private $available;
-
-    /**
      * @ORM\ManyToOne(targetEntity=TypeBicycle::class, inversedBy="bicycles")
      */
     private $type;
@@ -64,18 +59,6 @@ class Bicycle
     public function setName(string $name): self
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    public function getAvailable(): ?bool
-    {
-        return $this->available;
-    }
-
-    public function setAvailable(bool $available): self
-    {
-        $this->available = $available;
 
         return $this;
     }

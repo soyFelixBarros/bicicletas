@@ -22,12 +22,11 @@ class DashboardController extends AbstractDashboardController
     {
         $em = $this->getDoctrine();
         $repository = $em->getRepository(Bicycle::class);
-        $bicycles = $repository->findBy(array('available' => true), array('id' => 'DESC'), 4);
+        $bicycles = $repository->findAvailable('DESC', 10);
 
         return $this->render('admin/pages/index.html.twig', [
             'bicycles' => $bicycles
         ]);
-        // return parent::index();
     }
 
     public function configureDashboard(): Dashboard

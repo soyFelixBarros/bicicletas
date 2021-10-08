@@ -31,6 +31,11 @@ class Client
      */
     private $rentals;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true, options={"default" : 0})
+     */
+    private $bonusPoints;
+
     public function __construct()
     {
         $this->rentals = new ArrayCollection();
@@ -84,6 +89,18 @@ class Client
                 $rental->setClient(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getBonusPoints(): ?int
+    {
+        return $this->bonusPoints;
+    }
+
+    public function setBonusPoints(?int $bonusPoints): self
+    {
+        $this->bonusPoints = $bonusPoints;
 
         return $this;
     }
