@@ -16,13 +16,13 @@ use Symfony\Component\Routing\Annotation\Route;
 class DashboardController extends AbstractDashboardController
 {
     /**
-     * @Route("/admin", name="admin")
+     * @Route("/", name="admin")
      */
     public function index(): Response
     {
         $em = $this->getDoctrine();
         $repository = $em->getRepository(Bicycle::class);
-        $bicycles = $repository->findAvailable('DESC', 10);
+        $bicycles = $repository->findAll();
 
         return $this->render('admin/pages/index.html.twig', [
             'bicycles' => $bicycles

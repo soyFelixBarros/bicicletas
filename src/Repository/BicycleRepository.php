@@ -19,21 +19,6 @@ class BicycleRepository extends ServiceEntityRepository
         parent::__construct($registry, Bicycle::class);
     }
 
-    /**
-     * @return Bicycle[] Returns an array of Bicycle objects
-     */
-    public function findAvailable(string $orderBy = 'ASC', int $maxResults = 10)
-    {
-        return $this->createQueryBuilder('b')
-            ->leftJoin('b.rentals', 'r', 'WITH', 'r.returned = false')
-            ->where('r.returned = true OR r.returned IS NULL')
-            ->orderBy('b.id', $orderBy)
-            ->setMaxResults($maxResults)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-
     /*
     public function findOneBySomeField($value): ?Bicycle
     {
